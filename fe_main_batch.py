@@ -1,30 +1,17 @@
 #--------------------             
 # Author : Serge Zaugg
-# Description : A python cli tool to keep track and reproduce feature extraction history
-# Applies FeatureExtractor with several models and params
-# Usage example: python main_batch.py -i "D:/xc_real_projects/xc_sw_europe/xc_spectrograms" -n 21
-# spec example:  python main_batch.py -i "D:/xc_real_projects/xc_sw_europe/xc_spectrograms" -n 1000000
-# spec example:  python main_batch.py -i "D:/xc_real_projects/xc_parus_01/xc_spectrograms" -n 1000000
-# spec example:  python main_batch.py -i "D:/xc_real_projects/xc_corvus_corax/xc_spectrograms" -n 1000000
-# Usage example: python main_batch.py -i "./dev_data/images" -n 31
+# Description : 
 #--------------------
 
-
-
-
-# pip install https://github.com/sergezaugg/feature_extraction_idnn/releases/download/v0.9.3.1/fe_idnn-0.9.3.1-py3-none-any.whl
-
-# pip install https://github.com/sergezaugg/feature_extraction_saec/releases/download/v0.9.4/fe_saec-0.9.4-py3-none-any.whl
+# pip install --upgrade https://github.com/sergezaugg/feature_extraction_idnn/releases/download/v0.9.4/fe_idnn-0.9.4-py3-none-any.whl
+# pip install --upgrade https://github.com/sergezaugg/feature_extraction_saec/releases/download/v0.9.5/fe_saec-0.9.5-py3-none-any.whl
 
 # pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
 # pip install --force-reinstall torch torchvision --index-url https://download.pytorch.org/whl/cu126
 
-
 import torch
-
 from fe_saec import SAEC_extractor
 from fe_idnn import IDNN_extractor
-
 
 torch.cuda.is_available()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -32,23 +19,19 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 image_path = "D:/xc_real_projects/xc_parus_01/xc_spectrograms"
 
 # SAEC
-# Initialize a AEC-extractor instance
-path_models = "D:/xc_real_projects/pytorch_hot_models_keep"
-model_tag = "20250617_150956"
-se = SAEC_extractor(path_models, model_tag, path_images = image_path, device = device)
-# extract (will save to disk as npz)
-se.extract(devel = True)
-# time pool
-se.time_pool()
-# dim reduce
-[se.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
+path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_150956_encoder_script_GenC_new_TP32_epo007.pth"
+ae = SAEC_extractor(path_model = path_model, device = device) 
+# extract 
+ae.extract(image_path = image_path, batch_size = 32, shuffle = True , devel = True) 
+ae.time_pool(ecut=2)
+[ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
 
 # IDNN 
-n_batches = 10
 ie = IDNN_extractor(model_tag = "ResNet50")
 ie.eval_nodes
 ie.create("layer1.2.conv3")
-ie.extract(image_path, freq_pool = 4, batch_size = 16, n_batches = n_batches, ecut = 1)
+# extract 
+ie.extract(image_path, freq_pool = 4, batch_size = 16, n_batches = 10, ecut = 1)
 [ie.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
 
 
