@@ -3,11 +3,7 @@
 # Description : 
 #--------------------
 
-# pip install --upgrade https://github.com/sergezaugg/feature_extraction_idnn/releases/download/v0.9.5/fe_idnn-0.9.5-py3-none-any.whl
-# pip install --upgrade https://github.com/sergezaugg/feature_extraction_saec/releases/download/v0.9.5/fe_saec-0.9.5-py3-none-any.whl
 
-# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-# pip install --force-reinstall torch torchvision --index-url https://download.pytorch.org/whl/cu126
 
 import torch
 from fe_saec import SAEC_extractor
@@ -34,7 +30,9 @@ ie = IDNN_extractor(model_tag = "ResNet50")
 ie.eval_nodes
 ie.create("layer1.2.conv3")
 # extract 
-ie.extract(image_path = image_path, freq_pool = 4, batch_size = 16, n_batches = 10, ecut = 1)
+ie.extract(image_path = image_path,                                             freq_pool = 4, batch_size = 16, n_batches = 5, ecut = 1)
+ie.extract(image_path = image_path, fe_save_path = "C:/Users/sezau/Downloads",  freq_pool = 4, batch_size = 16, n_batches = 5, ecut = 1)
+
 [ie.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
 
 
