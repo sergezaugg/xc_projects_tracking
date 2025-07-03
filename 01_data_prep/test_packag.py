@@ -21,13 +21,16 @@ if not os.path.isdir('./temp_xc_project'):
 xc = xco.XCO(start_path = './temp_xc_project')
 
 # A few examples (on first use xc api key must be provided)
-xc.download_summary(gen = "Corvus", sp = "corone", cnt = "France",verbose=True)
-xc.download_summary(gen = "Corvus",cnt = "Germany",q = "B",  len_min = 10,verbose=True)
-xc.download_summary(gen = "Parus",sp = "major",cnt = "switzerland",  q = ">C",len_max = 10 , verbose=True)
-xc.download_summary(cnt = "Spain",q = "A",len_min = 5,len_max = 7,verbose=True)
+xc.download_summary(gen = "Corvus", sp = "corone", cnt = "France", len_min = 8,len_max = 10, verbose=True)
+xc.download_summary(gen = "Corvus",cnt = "Germany",q = "B",        len_min = 8,len_max = 8.1,verbose=True)
+xc.download_summary(gen = "Parus",sp = "major",cnt = "switzerland",  q = ">C", len_min = 8,len_max = 11 , verbose=True)
 xc.download_summary(gen = "Parus",sp = "major", cnt = "Spain",q = "A",len_min = 8,len_max = 14,verbose=True)
 
 
+# compile all content gathered above into a single df
+xc.compile_df_and_save(verbose = True)
+# check 
+xc.df_recs.shape
 
 xc.reload_local_summary()
 

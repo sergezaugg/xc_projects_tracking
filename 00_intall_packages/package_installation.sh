@@ -2,7 +2,7 @@
 # xeno_canto_organizer
 pip uninstall xeno_canto_organizer
 
-pip install --upgrade https://github.com/sergezaugg/xeno_canto_organizer/releases/download/v0.10.0/xeno_canto_organizer-0.10.0-py3-none-any.whl
+pip install --upgrade https://github.com/sergezaugg/xco/releases/download/v0.1.0/xeno_canto_organizer-0.1.0-py3-none-any.whl
 
 # First install torch and all its deps
 pip install torch torchvision
