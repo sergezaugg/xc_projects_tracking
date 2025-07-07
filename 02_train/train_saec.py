@@ -50,7 +50,7 @@ at = AutoencoderTrain(
 at.make_data_augment_examples().show()
 
 # Start training (.pth files will be saved to disk)
-_, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 32, batch_size_te = 32, devel = True)
+_, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 32, batch_size_te = 32, devel = False)
 
 # EvaluateReconstruction
 er = EvaluateReconstruction(dir_models = mod_dir, device = device)
