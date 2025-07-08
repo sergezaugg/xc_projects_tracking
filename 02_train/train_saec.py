@@ -16,7 +16,10 @@ mca = MakeColdAutoencoders(dir_models = mod_dir)
 mod_arch = mca.make()
 mod_arch.keys()
 mod_arch['GenC_new_TP32_CH0256']
-mod_arch['GenB3blocks']
+# mod_arch['GenB3blocks']
+mod_arch['GenBTP32_CH0256']
+
+
 
 # Either, initialize a AEC-trainer with a naive model 
 at = AutoencoderTrain(
@@ -33,7 +36,7 @@ at = AutoencoderTrain(
 at.make_data_augment_examples().show()
 
 # Start training (.pth files will be saved to disk)
-_, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 32, batch_size_te = 32, devel = True)
+_, _, tstmp01 = at.train_autoencoder(n_epochs = 5, batch_size_tr = 8, batch_size_te = 32, devel = False)
 
 # Either, initialize a AEC-trainer with a naive model 
 at = AutoencoderTrain(
@@ -51,6 +54,8 @@ at.make_data_augment_examples().show()
 
 # Start training (.pth files will be saved to disk)
 _, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 32, batch_size_te = 32, devel = False)
+
+tstmp01 = '20250708_132910'
 
 # EvaluateReconstruction
 er = EvaluateReconstruction(dir_models = mod_dir, device = device)
