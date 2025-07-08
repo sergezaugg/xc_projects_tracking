@@ -7,9 +7,9 @@ import torch
 from train_saec.tools import MakeColdAutoencoders, AutoencoderTrain, EvaluateReconstruction
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-mod_dir = "D:/xc_real_projects/pytorch_cold_models"
-dat_tra_dir = "D:/xc_real_projects/xc_all_4_pooled/images_short"
-dat_tes_dir = "D:/xc_real_projects/xc_sw_europe/xc_spectrograms"
+mod_dir = "D:/xc_real_projects/pytorch_models"
+dat_tra_dir = "D:/xc_real_projects/xc_data_01_train/images_24000sps_20250707_231415"
+dat_tes_dir = "D:/xc_real_projects/xc_data_02_Corvidae/images_24000sps_20250708_091750"
 
 # Create the cold (=random init) instances of the models
 mca = MakeColdAutoencoders(dir_models = mod_dir)
