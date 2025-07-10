@@ -21,7 +21,7 @@ mod_arch = mca.make()
 mod_arch.keys()
 # mod_arch['conv_tran_L5_TP32']
 # mod_arch['conv_conv_L5_TP32']
-
+mod_arch['conv_tran_L5_TP32_ch512']
 
 # Either, initialize a AEC-trainer with a naive model 
 at = AutoencoderTrain(
@@ -32,7 +32,7 @@ at = AutoencoderTrain(
 	hot_start = False, 
     # model_tag = "conv_tran_L5_TP32", 
 	# model_tag = "conv_tran_L4_TP08",
-	model_tag = "conv_conv_L5_TP32",
+	model_tag = "conv_tran_L5_TP32_ch512",
 	device = device
 	)
 
@@ -65,24 +65,31 @@ _, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 8, batch_size
 
 
 
+#-----------------------------------------------------------
+# assess results 
+import os 
+import torch
+from train_saec.tools import EvaluateReconstruction
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 dat_tes_dir_b = "D:/xc_real_projects/xc_hand_selected"
+# mod_dir_b = "D:/xc_real_projects/pytorch_models/conv_tran_L5_TP32"
+# mod_dir_b = "D:/xc_real_projects/pytorch_models/conv_tran_L5_TP32_ch512"
+# mod_dir_b = "D:/xc_real_projects/pytorch_models/conv_conv_L5_TP32"
+mod_dir_b = "D:/xc_real_projects/pytorch_models/conv_tran_L4_TP08"
 
-# model_tag = "conv_tran_L4_TP08", 
-for tstmp01 in ['20250709_231634', '20250710_000724', '20250710_090230']:
-	er = EvaluateReconstruction(dir_models = mod_dir, device = device)
-	er.evaluate_reconstruction_on_examples(path_images = dat_tes_dir_b, time_stamp_model = tstmp01, n_images = 23, shuffle = False).show()
 
-# model_tag = "conv_tran_L5_TP32", 
-for tstmp01 in ['20250709_110430', '20250709_120303', '20250709_202856']: # , '20250709_210933', '20250709_221750',]:
-	er = EvaluateReconstruction(dir_models = mod_dir, device = device)
-	er.evaluate_reconstruction_on_examples(path_images = dat_tes_dir_b, time_stamp_model = tstmp01, n_images = 23, shuffle = False).show()
+mod_li = list(set([a[0:15] for a in os.listdir(mod_dir_b)]))
+mod_li.sort()
 
-# model_tag = "conv_conv_L5_TP32", 
-for tstmp01 in ['20250710_012345', '20250710_021833', '20250710_031245', ]:
-	er = EvaluateReconstruction(dir_models = mod_dir, device = device)
+for tstmp01 in mod_li:
+	er = EvaluateReconstruction(dir_models = mod_dir_b, device = device)
 	er.evaluate_reconstruction_on_examples(path_images = dat_tes_dir_b, time_stamp_model = tstmp01, n_images = 23, shuffle = False).show()
 
 
-    
+
+
+
+
 
 
