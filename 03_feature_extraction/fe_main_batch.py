@@ -17,7 +17,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # path_source_images = "D:/xc_real_projects/xc_parus_01/xc_spectrograms"
 # path_save_features = "C:/Users/sezau/Downloads/xc_parus_01"
 
-path_source_images = "D:/xc_real_projects/xc_corvus_corax/xc_spectrograms"
+path_source_images = "D:/xc_real_projects/xc_data_02_Corvidae/images_24000sps_20250708_091750"
 path_save_features = "C:/Users/sezau/Downloads/xc_corvus_corax"
 
 if not os.path.exists(path_save_features):
@@ -82,26 +82,38 @@ fe.extract(image_path = path_source_images, fe_save_path = path_save_features,  
 #-----------
 # SAEC
 
-path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_150956_encoder_script_GenC_new_TP32_epo007.pth"
+# path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_150956_encoder_script_GenC_new_TP32_epo007.pth"
+# ae = SAEC_extractor(path_model = path_model, device = device) 
+# ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
+# ae.time_pool(ecut=2)
+# [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
+
+# path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_142531_encoder_script_GenBTP32_CH0256_epo007.pth"
+# ae = SAEC_extractor(path_model = path_model, device = device) 
+# ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
+# ae.time_pool(ecut=2)
+# [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
+
+# path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_131810_encoder_script_GenB3blocks_epo003.pth"
+# ae = SAEC_extractor(path_model = path_model, device = device) 
+# ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
+# ae.time_pool(ecut=2)
+# [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
+
+
+# NEW conv_tran_texture_01
+path_model = "D:/xc_real_projects/pytorch_models/conv_tran_texture_01/20250712_235352_encoder_script_conv_tran_texture_01_epo004.pth"
 ae = SAEC_extractor(path_model = path_model, device = device) 
 ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
 ae.time_pool(ecut=2)
 [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
 
-path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_142531_encoder_script_GenBTP32_CH0256_epo007.pth"
+# NEW conv_tran_L5_sym
+path_model = "D:/xc_real_projects/pytorch_models/conv_tran_L5_sym/20250711_154215_encoder_script_conv_tran_L5_sym_epo006.pth"
 ae = SAEC_extractor(path_model = path_model, device = device) 
 ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
 ae.time_pool(ecut=2)
 [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
-
-path_model = "D:/xc_real_projects/pytorch_hot_models_keep/20250617_131810_encoder_script_GenB3blocks_epo003.pth"
-ae = SAEC_extractor(path_model = path_model, device = device) 
-ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
-ae.time_pool(ecut=2)
-[ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
-
-
-
 
 
 
