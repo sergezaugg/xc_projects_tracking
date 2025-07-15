@@ -8,6 +8,6 @@ pip uninstall fe_saec
 
 # then  the packages with minimal deps 
 pip install --upgrade https://github.com/sergezaugg/feature_extraction_idnn/releases/download/v0.9.12/fe_idnn-0.9.12-py3-none-any.whl
-pip install --upgrade https://github.com/sergezaugg/feature_extraction_saec/releases/download/v0.9.8/fe_saec-0.9.8-py3-none-any.whl
+pip install --upgrade https://github.com/sergezaugg/feature_extraction_saec/releases/download/v0.9.12/fe_saec-0.9.12-py3-none-any.whl
 
 
