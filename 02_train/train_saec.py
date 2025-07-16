@@ -7,14 +7,10 @@ import torch
 from train_saec.tools import MakeColdAutoencoders, AutoencoderTrain, EvaluateReconstruction
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# mod_dir = "D:/xc_real_projects/pytorch_models"
 mod_dir = "D:/xc_real_projects/pytorch_models/conv_tran_texture_01"
 
 dat_tra_dir = "D:/xc_real_projects/xc_data_01_train/images_24000sps_20250707_231415"
-dat_tes_dir = "D:/xc_real_projects/xc_data_02_Corvidae/images_24000sps_20250708_091750"
-
-
-
+dat_tes_dir = "D:/xc_real_projects/xc_data_02_Corvidae/xc_spectrograms"
 
 
 # Create the cold (=random init) instances of the models
@@ -23,7 +19,7 @@ mod_arch = mca.make()
 mod_arch.keys()
 # 'conv_tran_L5_TP32_ch256', 'conv_tran_L5_sym', 'conv_tran_L5_TP32_ch512', 'conv_conv_L5_TP32', 'conv_tran_L4_TP08', 'conv_tran_texture_01', 'conv_tran_textr_resh'] 
 mod_arch['conv_tran_texture_01']
-mod_arch['conv_tran_textr_resh']
+# mod_arch['conv_tran_textr_resh']
 
 # Either, initialize a AEC-trainer with a naive model 
 at = AutoencoderTrain(
@@ -32,9 +28,6 @@ at = AutoencoderTrain(
 	dir_train_data = dat_tra_dir, 
     dir_test_data = dat_tes_dir,
 	hot_start = False, 
-    # model_tag = "conv_tran_L5_TP32", 
-	# model_tag = "conv_tran_L4_TP08",
-	# model_tag = "conv_tran_L5_sym",
 	model_tag = "conv_tran_texture_01",
 	device = device
 	)
@@ -43,15 +36,15 @@ at = AutoencoderTrain(
 at.make_data_augment_examples().show()
 
 # Start training (.pth files will be saved to disk)
-_, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 8, batch_size_te = 32, devel = False)
-
-
-
+_, _, tstmp01 = at.train_autoencoder(n_epochs = 1, batch_size_tr = 8, batch_size_te = 32, devel = True)
 
 
 dat_tes_dir_b = "D:/xc_real_projects/xc_hand_selected"
 er = EvaluateReconstruction(dir_models = mod_dir, device = device)
 er.evaluate_reconstruction_on_examples(path_images = dat_tes_dir_b, time_stamp_model = tstmp01, n_images = 23, shuffle = False).show()
+
+
+
 
 
 

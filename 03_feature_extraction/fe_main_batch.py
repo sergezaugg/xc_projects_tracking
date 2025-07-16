@@ -6,7 +6,7 @@
 import os
 import gc
 import torch
-# from fe_idnn import IDNN_extractor
+from fe_idnn import IDNN_extractor
 from fe_saec import SAEC_extractor
 
 torch.cuda.is_available()
@@ -35,30 +35,17 @@ basiz = 64
 # "D:\xc_real_projects\pytorch_models\conv_tran_texture_01"
 # "D:\xc_real_projects\pytorch_models\conv_tran_textr_resh"
 
-# DEF conv_tran_L5_TP32_ch256
+# DEF conv_tran_L5_TP32_ch256 (success : done 20250715 - 21:06)
 path_model = "D:/xc_real_projects/pytorch_models/conv_tran_L5_TP32_ch256/20250710_223517_encoder_script_conv_tran_L5_TP32_epo006.pth"
 ae = SAEC_extractor(path_model = path_model, device = device) 
-ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = n_batches) 
+ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = None, verbose = True) 
 ae.time_pool(ecut=2)
 [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
-
-
-
-
 
 # NEW conv_tran_L5_sym (success : done 20250715 - 20:29)
 path_model = "D:/xc_real_projects/pytorch_models/conv_tran_L5_sym/20250711_154215_encoder_script_conv_tran_L5_sym_epo006.pth"
 ae = SAEC_extractor(path_model = path_model, device = device) 
 ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = None, verbose = True) 
-ae.time_pool(ecut=2)
-[ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
-
-# NEW conv_tran_texture_01 (failed: memory issues with  ae.time_pool(ecut=2))
-path_model = "D:/xc_real_projects/pytorch_models/conv_tran_texture_01/20250713_224421_encoder_script_conv_tran_texture_01_epo004.pth"
-ae = SAEC_extractor(path_model = path_model, device = device) 
-ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = None, verbose = True) 
-# to free max of memory the hard way: - close session and start new session + run code below 
-ae.load_full_features_from_npz(path_npz = os.path.join(path_save_features, "full_features_saec_20250713_224421.npz"))
 ae.time_pool(ecut=2)
 [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
 
@@ -71,6 +58,15 @@ ae.extract(image_path = path_source_images, fe_save_path = path_save_features, b
 ae.time_pool(ecut=2)
 [ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
 
+# NEW conv_tran_texture_01 (success : done 20250716 - 13:45)
+path_model = "D:/xc_real_projects/pytorch_models/conv_tran_texture_01/20250716_101902_encoder_script_conv_tran_texture_01_epo006.pth"
+ae = SAEC_extractor(path_model = path_model, device = device) 
+ae.extract(image_path = path_source_images, fe_save_path = path_save_features, batch_size = basiz, shuffle = True , n_batches = None, verbose = True) 
+# to free max of memory the hard way: - close session and start new session + run code below 
+# ae.load_full_features_from_npz(path_npz = os.path.join(path_save_features, "xxxxxx.npz"))
+ae.X.shape
+ae.time_pool(ecut=2)
+[ae.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]  
 
 
 
@@ -80,6 +76,8 @@ ae.time_pool(ecut=2)
 
 #-----------
 # ResNet50
+
+n_batches = 500000000000
 
 fe = IDNN_extractor(model_tag = "ResNet50")
 fe.create("layer1.2.conv3")
