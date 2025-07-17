@@ -79,25 +79,32 @@ ae.time_pool(ecut=2)
 
 n_batches = 500000000000
 
+#success - 20250716 - 17:30
 fe = IDNN_extractor(model_tag = "ResNet50")
 fe.create("layer1.2.conv3")
 fe.extract(image_path = path_source_images, fe_save_path = path_save_features,  freq_pool = 4, batch_size = basiz, n_batches = n_batches, ecut = 1)
 [fe.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
 
+#success - 20250716 - 21:xx
 fe = IDNN_extractor(model_tag = "ResNet50")
 fe.create("layer2.3.conv3")
 fe.extract(image_path = path_source_images, fe_save_path = path_save_features,  freq_pool = 4, batch_size = basiz, n_batches = n_batches, ecut = 1)
 [fe.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
 
+#success - 20250716 - 23:48
 fe = IDNN_extractor(model_tag = "ResNet50")
 fe.create("layer3.5.conv3")
 fe.extract(image_path = path_source_images, fe_save_path = path_save_features,  freq_pool = 4, batch_size = basiz, n_batches = n_batches, ecut = 1)
 [fe.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
 
+#success - 20250717 - 
 fe = IDNN_extractor(model_tag = "ResNet50")
 fe.create("layer4.2.conv3")
 fe.extract(image_path = path_source_images, fe_save_path = path_save_features,  freq_pool = 4, batch_size = basiz, n_batches = n_batches, ecut = 1)
 [fe.reduce_dimension(n_neigh = 10, reduced_dim = d) for d in [2,4,8,16]]
+
+
+
 
 #-----------
 # vgg16
